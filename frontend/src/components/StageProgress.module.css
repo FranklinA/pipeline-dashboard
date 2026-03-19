@@ -1,0 +1,60 @@
+.stage {
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.stage:last-child { border-bottom: none; }
+.stage:hover, .active { background: var(--bg-card-alt); }
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.icon   { font-size: 1.1em; }
+.order  { color: var(--text-muted); font-size: var(--font-size-sm); }
+.name   { flex: 1; font-weight: 500; }
+.detail { font-size: var(--font-size-sm); color: var(--text-muted); }
+
+/* Progress bar track */
+.bar {
+  height: 6px;
+  background: var(--bg-page);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.pending .fill { background: var(--color-pending); }
+.running .fill { background: var(--color-running); }
+.success .fill { background: var(--color-success); }
+.failed  .fill { background: var(--color-failed); }
+
+/* Barberpole for running (indeterminate) */
+.indeterminate {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-running) 0px,
+    var(--color-running) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  background-size: 28px 100%;
+  animation: barberpole 1s linear infinite;
+}
+
+@keyframes barberpole {
+  from { background-position: 0 0; }
+  to   { background-position: 28px 0; }
+}

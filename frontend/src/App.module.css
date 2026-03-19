@@ -1,0 +1,56 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-md) var(--space-xl);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  flex: 1;
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.nav a {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition), background var(--transition);
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--text-primary);
+  background: var(--bg-card-alt);
+}
+
+/* WebSocket connection indicator */
+.wsIndicator {
+  font-size: var(--font-size-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.wsConnected    { background: rgba(16, 185, 129, 0.15); color: var(--color-success); }
+.wsReconnecting { background: rgba(245, 158, 11, 0.15); color: var(--color-cancelled); }
+.wsDisconnected { background: rgba(239, 68, 68, 0.15);  color: var(--color-failed); }
+
+.main { flex: 1; }

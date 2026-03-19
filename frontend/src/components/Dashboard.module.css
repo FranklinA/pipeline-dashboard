@@ -1,0 +1,110 @@
+.container {
+  padding: var(--space-lg);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--space-lg);
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-xl);
+}
+
+/* Summary cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.value { font-size: 2rem; font-weight: 700; }
+.label { font-size: var(--font-size-sm); color: var(--text-muted); }
+
+/* Status breakdown */
+.breakdown { margin-bottom: var(--space-xl); }
+
+.breakdown h2,
+.recent h2 {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.barLabel {
+  width: 80px;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+.barTrack {
+  flex: 1;
+  height: 8px;
+  background: var(--bg-card-alt);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+  min-width: 2px;
+}
+
+.pending   { background-color: var(--color-pending); }
+.running   { background-color: var(--color-running); }
+.success   { background-color: var(--color-success); }
+.failed    { background-color: var(--color-failed); }
+.cancelled { background-color: var(--color-cancelled); }
+
+.barCount {
+  width: 90px;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Recent pipelines */
+.recent ul { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+.recentItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.recentItem:hover { background: var(--bg-card-alt); }
+
+.recentName { flex: 1; font-size: var(--font-size-sm); }
+.recentMeta { font-size: var(--font-size-sm); color: var(--text-muted); }
+.empty      { color: var(--text-muted); font-size: var(--font-size-sm); }

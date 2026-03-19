@@ -1,0 +1,21 @@
+.badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.pending   { background-color: var(--color-pending); }
+.running   { background-color: var(--color-running); animation: pulse 1.5s ease-in-out infinite; }
+.success   { background-color: var(--color-success); }
+.failed    { background-color: var(--color-failed); }
+.cancelled { background-color: var(--color-cancelled); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}

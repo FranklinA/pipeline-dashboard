@@ -1,0 +1,46 @@
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.card:hover {
+  background: var(--bg-card-alt);
+  border-color: var(--color-running);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.name {
+  font-weight: 600;
+  flex: 1;
+}
+
+.id {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.repo {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.dot { color: var(--border); }
