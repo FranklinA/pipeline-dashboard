@@ -1,8 +1,23 @@
 """Pydantic schemas para el Pipeline Dashboard."""
 
 from datetime import datetime
+from typing import Annotated
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, PlainSerializer
+
+
+# ── Tipos con serialización UTC+Z ─────────────────────────────────────────────
+
+def _fmt_utc(v: datetime | None) -> str | None:
+    if v is None:
+        return None
+    return v.strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+UTCDatetime = Annotated[datetime, PlainSerializer(_fmt_utc, return_type=str)]
+OptUTCDatetime = Annotated[
+    datetime | None, PlainSerializer(_fmt_utc, return_type=str | None)
+]
 
 
 # ── Stage schemas ──────────────────────────────────────────────────────────────
@@ -16,8 +31,8 @@ class StageResponse(BaseModel):
     name: str
     order: int
     status: str
-    started_at: datetime | None
-    finished_at: datetime | None
+    started_at: OptUTCDatetime
+    finished_at: OptUTCDatetime
     duration_seconds: int | None
 
 
@@ -44,10 +59,10 @@ class PipelineResponse(BaseModel):
     branch: str
     trigger_type: str
     status: str
-    started_at: datetime | None
-    finished_at: datetime | None
+    started_at: OptUTCDatetime
+    finished_at: OptUTCDatetime
     duration_seconds: int | None
-    created_at: datetime
+    created_at: UTCDatetime
     stages: list[StageResponse]
 
 
@@ -103,7 +118,7 @@ class LogEntryResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
-    timestamp: datetime
+    timestamp: UTCDatetime
     level: str
     message: str
 
@@ -140,12 +155,12 @@ class WsPipelineCompletedData(BaseModel):
 
     status: str
     duration_seconds: int | None
-    finished_at: datetime
+    finished_at: UTCDatetime
 
 
 class WsLogEntryData(BaseModel):
     """Datos del mensaje log_entry."""
 
-    timestamp: datetime
+    timestamp: UTCDatetime
     level: str
     message: str

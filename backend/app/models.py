@@ -18,6 +18,7 @@ class Pipeline(Base):
     repository: Mapped[str] = mapped_column(String, nullable=False)
     branch: Mapped[str] = mapped_column(String, nullable=False)
     trigger_type: Mapped[str] = mapped_column(String, nullable=False)
+    template: Mapped[str] = mapped_column(String, nullable=False, default="")
     status: Mapped[str] = mapped_column(String, nullable=False, default="pending")
     started_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     finished_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

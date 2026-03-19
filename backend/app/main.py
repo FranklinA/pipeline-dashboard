@@ -1,11 +1,13 @@
-"""FastAPI application principal con lifespan y CORS."""
+"""FastAPI application principal con lifespan, CORS, routers y WebSocket."""
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import init_db
+from app.dependencies import ws_manager
+from app.routers import dashboard, pipelines
 
 
 @asynccontextmanager
@@ -29,8 +31,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(pipelines.router)
+app.include_router(dashboard.router)
+
 
 @app.get("/health")
 async def health_check() -> dict:
     """Verifica que el servidor está activo."""
     return {"status": "ok"}
+
+
+@app.websocket("/ws/pipelines")
+async def websocket_endpoint(websocket: WebSocket) -> None:
+    """Acepta conexiones WebSocket y envía updates de pipelines en tiempo real."""
+    await ws_manager.connect(websocket)
+    try:
+        while True:
+            # Mantener la conexión abierta; el servidor es el único que envía mensajes.
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        await ws_manager.disconnect(websocket)
+    except Exception:
+        await ws_manager.disconnect(websocket)
