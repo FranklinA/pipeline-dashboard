@@ -5,10 +5,15 @@ import { WS_URL } from '../utils/constants'
  * Hook para mantener una conexión WebSocket con reconexión automática.
  * @param {function} onMessage - callback(parsedMessage) llamado por cada mensaje recibido
  */
+const BACKOFF_INITIAL = 1000
+const BACKOFF_MAX     = 30000
+
 export function useWebSocket(onMessage) {
   const wsRef        = useRef(null)
   const onMsgRef     = useRef(onMessage)
   const unmountedRef = useRef(false)
+  const backoffRef   = useRef(BACKOFF_INITIAL)
+  const timerRef     = useRef(null)
   const [isConnected,  setIsConnected]  = useState(false)
   const [reconnecting, setReconnecting] = useState(false)
 
@@ -26,6 +31,7 @@ export function useWebSocket(onMessage) {
     ws.onopen = () => {
       setIsConnected(true)
       setReconnecting(false)
+      backoffRef.current = BACKOFF_INITIAL  // reset backoff on successful connection
       console.log('[WS] Conectado')
     }
 
@@ -40,10 +46,12 @@ export function useWebSocket(onMessage) {
 
     ws.onclose = () => {
       setIsConnected(false)
-      console.log('[WS] Desconectado — reconectando en 3s...')
       if (!unmountedRef.current) {
+        const delay = backoffRef.current
+        backoffRef.current = Math.min(delay * 2, BACKOFF_MAX)
+        console.log(`[WS] Desconectado — reconectando en ${delay / 1000}s...`)
         setReconnecting(true)
-        setTimeout(connect, 3000)
+        timerRef.current = setTimeout(connect, delay)
       }
     }
 
@@ -58,6 +66,7 @@ export function useWebSocket(onMessage) {
     connect()
     return () => {
       unmountedRef.current = true
+      clearTimeout(timerRef.current)
       wsRef.current?.close()
     }
   }, [connect])
